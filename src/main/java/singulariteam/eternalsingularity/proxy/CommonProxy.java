@@ -74,9 +74,11 @@ public class CommonProxy {
 		final boolean aboveTheLimit = singularityCount > 81;
 		final boolean useCompoundSingularities = config.getBoolean("useCompoundSingularities", Configuration.CATEGORY_GENERAL, aboveTheLimit, "When useCompoundSingularities is Enabled, Basic Singularities will Need to be Crafted into Compound Singularities First.\n[If there are > 81 Basic Singularities, this Config Option will be Set to True Automatically]") || aboveTheLimit;
 		final boolean easyMode = config.getBoolean("easyMode", Configuration.CATEGORY_GENERAL, false, "If this Config Option is Enabled, for Every 9 Singularities Used in the Eternal Singularity Recipe, You will Receive an Additional Eternal Singularity for the Recipe Output.");
+		final boolean loadAllCompoundSingularities = config.getBoolean("loadAllCompoundSingularities", Configuration.CATEGORY_GENERAL, true, "If useCompoundSingularities is enabled this will force all the items without necessarily registering recipes for them.");
+
 		if (config.hasChanged())
 			config.save();
-		final int compoundMax = (int) Math.ceil((float) singularityCount / 9);
+		final int compoundMax = loadAllCompoundSingularities ? 16 : (int) Math.ceil((float) singularityCount / 9);
 		compoundSingularityItem.max = 0;
 		if (useCompoundSingularities) {
 			compoundSingularityItem.max = compoundMax;
